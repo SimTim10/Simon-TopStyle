@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Models.DTOs;
@@ -16,7 +17,8 @@ namespace Simon_TopStyle.Controllers
             _adminService = adminService;
         }
 
-        [HttpPost("AddProduct")]
+        [HttpPost("AddProduct"),Authorize]
+                
         public IActionResult AddProduct(AddProduct product)
         {
             _adminService.AddNewProduct(product);

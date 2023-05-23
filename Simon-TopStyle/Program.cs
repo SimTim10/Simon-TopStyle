@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Simon_TopStyle.Core.Authentications;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Core.Services;
 using Simon_TopStyle.Data.DataModels;
@@ -18,6 +19,7 @@ builder.Services.AddControllers()
     });
 builder.Services.AddScoped<IAdminRepo, AdminRepo>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAuthentication, Authentication>();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -36,8 +38,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 var app = builder.Build();
 
+
 app.UseRouting();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints => endpoints.MapControllers());
 
 

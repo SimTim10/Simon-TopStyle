@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Data.Interfaces;
 using Simon_TopStyle.Models.DTOs;
@@ -9,6 +10,7 @@ namespace Simon_TopStyle.Core.Services
     {
         private readonly IAdminRepo _adminRepo;
 
+        
         public AdminService(IAdminRepo adminRepo)
         {
             _adminRepo = adminRepo;
