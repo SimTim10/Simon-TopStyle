@@ -14,7 +14,7 @@ namespace Simon_TopStyle.Models.Entities
         public string Description { get; set; }
         [Required]
         public int Price { get; set; }
-        public string type { get; set; }
+        
         public Category Category { get; set; }
     }
 }
