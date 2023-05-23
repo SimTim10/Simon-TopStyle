@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Simon_TopStyle.Core.Interfaces;
+using Simon_TopStyle.Core.Services;
 using Simon_TopStyle.Data.DataModels;
+using Simon_TopStyle.Data.Interfaces;
+using Simon_TopStyle.Data.Repos;
 using Simon_TopStyle.Models.Users;
 using System.Text.Json.Serialization;
 
@@ -12,6 +16,9 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
+builder.Services.AddScoped<IAdminRepo, AdminRepo>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<TopStyleDBContext>(
@@ -32,7 +39,7 @@ var app = builder.Build();
 app.UseRouting();
 app.UseAuthentication();
 app.UseEndpoints(endpoints => endpoints.MapControllers());
-app.MapControllers();
+
 
 
 app.Run();
