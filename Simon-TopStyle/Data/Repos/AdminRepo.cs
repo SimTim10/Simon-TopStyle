@@ -1,4 +1,5 @@
 ﻿using Simon_TopStyle.Data.DataModels;
+using Simon_TopStyle.Models.DTOs;
 using Simon_TopStyle.Models.Entities;
 
 namespace Simon_TopStyle.Data.Repos
@@ -7,9 +8,15 @@ namespace Simon_TopStyle.Data.Repos
     {
         private readonly TopStyleDBContext _dbContext;
 
-        public void AddNewProduct()
+        public void AddNewProduct(AddProduct product)
         {
-            
+            var newProduct = new Product()
+            {
+                ProductName = product.ProductName,
+                Description = product.Description,
+                Price = product.Price
+
+            };
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simon_TopStyle.Data.DataModels;
 
@@ -11,9 +12,11 @@ using Simon_TopStyle.Data.DataModels;
 namespace Simon_TopStyle.Migrations
 {
     [DbContext(typeof(TopStyleDBContext))]
-    partial class TopStyleDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230523195218_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,7 +248,7 @@ namespace Simon_TopStyle.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<int?>("CategoryCategortyId")
+                    b.Property<int>("CategoryCategortyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -415,9 +418,13 @@ namespace Simon_TopStyle.Migrations
 
             modelBuilder.Entity("Simon_TopStyle.Models.Entities.Product", b =>
                 {
-                    b.HasOne("Simon_TopStyle.Models.Entities.Category", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryCategortyId");
+                    b.HasOne("Simon_TopStyle.Models.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryCategortyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Simon_TopStyle.Models.Entities.ProductOrder", b =>
@@ -437,11 +444,6 @@ namespace Simon_TopStyle.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Simon_TopStyle.Models.Entities.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Simon_TopStyle.Models.Entities.Customer", b =>
