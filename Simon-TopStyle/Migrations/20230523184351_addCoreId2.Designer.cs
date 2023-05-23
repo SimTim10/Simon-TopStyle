@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simon_TopStyle.Data.DataModels;
 
@@ -11,9 +12,11 @@ using Simon_TopStyle.Data.DataModels;
 namespace Simon_TopStyle.Migrations
 {
     [DbContext(typeof(TopStyleDBContext))]
-    partial class TopStyleDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230523184351_addCoreId2")]
+    partial class addCoreId2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,6 +259,9 @@ namespace Simon_TopStyle.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -268,22 +274,9 @@ namespace Simon_TopStyle.Migrations
 
                     b.HasIndex("CategoryCategortyId");
 
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Simon_TopStyle.Models.Entities.ProductOrder", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "OrderId");
-
                     b.HasIndex("OrderId");
 
-                    b.ToTable("ProductsOrders");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Simon_TopStyle.Models.Users.ApplicationUser", b =>
@@ -421,26 +414,11 @@ namespace Simon_TopStyle.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Simon_TopStyle.Models.Entities.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
+
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Simon_TopStyle.Models.Entities.ProductOrder", b =>
-                {
-                    b.HasOne("Simon_TopStyle.Models.Entities.Order", "Order")
-                        .WithMany("ProductOrders")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Simon_TopStyle.Models.Entities.Product", "Product")
-                        .WithMany("ProductOrders")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Simon_TopStyle.Models.Entities.Category", b =>
@@ -455,12 +433,7 @@ namespace Simon_TopStyle.Migrations
 
             modelBuilder.Entity("Simon_TopStyle.Models.Entities.Order", b =>
                 {
-                    b.Navigation("ProductOrders");
-                });
-
-            modelBuilder.Entity("Simon_TopStyle.Models.Entities.Product", b =>
-                {
-                    b.Navigation("ProductOrders");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

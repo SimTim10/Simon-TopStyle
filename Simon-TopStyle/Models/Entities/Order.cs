@@ -9,6 +9,8 @@ namespace Simon_TopStyle.Models.Entities
         public int OrderId { get; set; }
 
         public Customer Customer { get; set; }
-        public List<Product> Products { get; set; }
+        public List<ProductOrder> ProductOrders { get; set; }
+
+        //public List<Product> Products { get; set; }
     }
 }

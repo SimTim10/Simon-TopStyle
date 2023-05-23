@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simon_TopStyle.Data.DataModels;
 
@@ -11,9 +12,11 @@ using Simon_TopStyle.Data.DataModels;
 namespace Simon_TopStyle.Migrations
 {
     [DbContext(typeof(TopStyleDBContext))]
-    partial class TopStyleDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230523192927_m_to_m_Prod_Ord")]
+    partial class m_to_m_Prod_Ord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

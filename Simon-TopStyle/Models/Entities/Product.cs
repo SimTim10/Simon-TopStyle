@@ -15,6 +15,7 @@ namespace Simon_TopStyle.Models.Entities
         [Required]
         public int Price { get; set; }
         public bool IsAvailable { get; set; }
+        public List<ProductOrder> ProductOrders { get; set; }
         public Category Category { get; set; }
     }
 }

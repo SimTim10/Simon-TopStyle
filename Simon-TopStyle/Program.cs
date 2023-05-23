@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Simon_TopStyle.Data.DataModels;
+using Simon_TopStyle.Models.Users;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,12 +20,17 @@ if (builder.Environment.IsDevelopment())
         );
 }
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<TopStyleDBContext>()
+    .AddDefaultTokenProviders();
+
 
 
 
 var app = builder.Build();
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseEndpoints(endpoints => endpoints.MapControllers());
 app.MapControllers();
 
