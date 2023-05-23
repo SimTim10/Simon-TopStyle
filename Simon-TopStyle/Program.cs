@@ -10,11 +10,15 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<TopStyleDBContext>(
+        options => options.UseSqlServer(
+            builder.Configuration.GetConnectionString("connString"))
+        );
+}
 
-builder.Services.AddDbContext<TopStyleDBContext>(
-options => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("connString"))
-);
+
 
 
 var app = builder.Build();
