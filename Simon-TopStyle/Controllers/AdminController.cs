@@ -17,9 +17,9 @@ namespace Simon_TopStyle.Controllers
             _adminService = adminService;
         }
 
-        
-        [HttpPost("AddProduct")]
+
         [Authorize]
+        [HttpPost("AddProduct")]
 
         public IActionResult AddProduct(AddProduct product)
         {

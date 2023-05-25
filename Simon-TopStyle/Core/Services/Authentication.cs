@@ -17,7 +17,7 @@ namespace Simon_TopStyle.Core.Authentications
             _signInManager = signInManager;
         }
 
-        public async Task<string> Register(UserDTO user)
+        public async Task Register(UserDTO user)
         {
             ApplicationUser newUser = new ApplicationUser()
             {
@@ -25,27 +25,13 @@ namespace Simon_TopStyle.Core.Authentications
                 Email = user.Email
             };
 
-            var result = await _userManager.CreateAsync(newUser,user.Password);
-            if (result.Succeeded)
-            {
-                return ("success register");
-            }
-            else
-            {
-                return("error register");
-            }
+            await _userManager.CreateAsync(newUser,user.Password);
+          
         }
-        public async Task<string> Login(UserDTO user)
+        public async Task Login(UserDTO user)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Email,user.Password,false,false);
-            if (result.Succeeded)
-            {
-                return ("success Login");
-            }
-            else 
-            { 
-                return("error Login"); 
-            }
+             await _signInManager.PasswordSignInAsync(user.Email,user.Password,false,false);
+           
         }
     }
 }

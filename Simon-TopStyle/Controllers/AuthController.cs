@@ -20,13 +20,13 @@ namespace Simon_TopStyle.Controllers
         public async Task<IActionResult> Register(UserDTO user)
         {
             await _authentication.Register(user);
-            return Ok();
+            return Ok("Register Success");
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserDTO user)
         {
             await _authentication.Login(user);
-            return Ok();
+            return Ok("Login success");
         }
     }
 }
