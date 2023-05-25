@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Simon_TopStyle.Core.Authentications;
 using Simon_TopStyle.Core.Interfaces;
+using Simon_TopStyle.Core.Security;
 using Simon_TopStyle.Core.Services;
 using Simon_TopStyle.Data.DataModels;
 using Simon_TopStyle.Data.Interfaces;
@@ -23,6 +24,7 @@ builder.Services.AddControllers()
 builder.Services.AddScoped<IAdminRepo, AdminRepo>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAuthentication, Authentication>();
+builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
 if (builder.Environment.IsDevelopment())
 {

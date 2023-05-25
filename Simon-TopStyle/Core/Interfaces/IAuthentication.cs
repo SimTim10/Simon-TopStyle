@@ -4,7 +4,7 @@ namespace Simon_TopStyle.Core.Interfaces
 {
     public interface IAuthentication
     {
-        Task Register(UserDTO user);
-        Task Login(UserDTO user);
+        Task<string> Register(UserDTO user);
+        Task<string> Login(UserDTO user);
     }
 }

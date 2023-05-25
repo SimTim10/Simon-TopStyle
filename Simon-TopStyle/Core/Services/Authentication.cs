@@ -10,14 +10,16 @@ namespace Simon_TopStyle.Core.Authentications
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public Authentication(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public Authentication(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenGenerator tokenGenerator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenGenerator = tokenGenerator;
         }
 
-        public async Task Register(UserDTO user)
+        public async Task<string> Register(UserDTO user)
         {
             ApplicationUser newUser = new ApplicationUser()
             {
@@ -25,13 +27,31 @@ namespace Simon_TopStyle.Core.Authentications
                 Email = user.Email
             };
 
-            await _userManager.CreateAsync(newUser,user.Password);
+            var result = await _userManager.CreateAsync(newUser,user.Password);
+            if (result.Succeeded)
+            {
+                return _tokenGenerator.JwtGenerator(user);
+            }
+            else
+            {
+                throw new Exception ("Could not register!");
+            }
           
         }
-        public async Task Login(UserDTO user)
+        public async Task<string> Login(UserDTO user)
         {
-             await _signInManager.PasswordSignInAsync(user.Email,user.Password,false,false);
-           
+            try
+            {
+                await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
+                return _tokenGenerator.JwtGenerator(user);
+            }
+            catch (Exception ex)
+            {
+                return(ex.Message);
+            }
+            
+            
+
         }
     }
 }

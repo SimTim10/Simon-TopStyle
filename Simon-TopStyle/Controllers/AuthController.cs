@@ -19,14 +19,30 @@ namespace Simon_TopStyle.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserDTO user)
         {
-            await _authentication.Register(user);
-            return Ok("Register Success");
+            try
+            {
+                var result = await _authentication.Register(user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserDTO user)
         {
-            await _authentication.Login(user);
-            return Ok("Login success");
+            try
+            {
+                var result = await _authentication.Login(user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

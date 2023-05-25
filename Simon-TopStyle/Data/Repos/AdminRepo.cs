@@ -16,13 +16,17 @@ namespace Simon_TopStyle.Data.Repos
 
         public void AddNewProduct(AddProduct product)
         {
+            
             var newProduct = new Product()
             {
+
                 ProductName = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
+                CategoryId = product.CategoryId,
                 IsAvailable = product.IsAvailabe
             };
+
             _dbContext.Products.Add(newProduct);
             _dbContext.SaveChanges();
         }
