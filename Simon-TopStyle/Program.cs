@@ -25,6 +25,8 @@ builder.Services.AddScoped<IAdminRepo, AdminRepo>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAuthentication, Authentication>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
+builder.Services.AddScoped<IRolesRepo, RolesRepo>();
+builder.Services.AddScoped<IRolesService, RolesService>();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -34,7 +36,7 @@ if (builder.Environment.IsDevelopment())
         );
 }
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<TopStyleDBContext>()
     .AddDefaultTokenProviders();
 

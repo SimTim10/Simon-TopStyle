@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Simon_TopStyle.Models.Entities;
 using Simon_TopStyle.Models.Users;
 
 namespace Simon_TopStyle.Data.DataModels
 {
-    public class TopStyleDBContext : IdentityDbContext<ApplicationUser>
+    public class TopStyleDBContext : IdentityDbContext<IdentityUser>
     {
         public TopStyleDBContext(DbContextOptions<TopStyleDBContext> options) : base(options)
         {

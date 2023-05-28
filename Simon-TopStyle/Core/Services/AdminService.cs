@@ -12,8 +12,8 @@ namespace Simon_TopStyle.Core.Services
     {
         private readonly IAdminRepo _adminRepo;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public AdminService(IAdminRepo adminRepo, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        private readonly UserManager<IdentityUser> _userManager;
+        public AdminService(IAdminRepo adminRepo, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
             _adminRepo = adminRepo;
             _roleManager = roleManager;
@@ -21,18 +21,7 @@ namespace Simon_TopStyle.Core.Services
         }
 
 
-        public List<IdentityRole> GetAllRoles()
-        {
-            var roles = _roleManager.Roles.ToList();
-
-            return roles;
-        }
-
-        public async Task<List<ApplicationUser>> GetAllUsers()
-        {
-            var users = _userManager.Users.ToList();
-            return users;
-        }
+        
 
         public void AddNewProduct(AddProduct product)
         {

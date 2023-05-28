@@ -17,23 +17,6 @@ namespace Simon_TopStyle.Controllers
             _adminService = adminService;
         }
 
-
-        [HttpGet("GetAllRoles")]
-        public IActionResult GetAllRoles()
-        {
-            var getRoles = _adminService.GetAllRoles();
-            return Ok(getRoles);
-        }
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            var users = await _adminService.GetAllUsers();
-            return Ok(users);
-        }
-
-
-
         [Authorize]
         [HttpPost("AddProduct")]
 

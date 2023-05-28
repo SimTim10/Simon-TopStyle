@@ -10,12 +10,12 @@ namespace Simon_TopStyle.Core.Authentications
 {
     public class Authentication : IAuthentication
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ITokenGenerator _tokenGenerator;
 
-        public Authentication(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, ITokenGenerator tokenGenerator)
+        public Authentication(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, ITokenGenerator tokenGenerator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
