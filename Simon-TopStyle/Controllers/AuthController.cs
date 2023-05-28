@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Models.DTOs;
@@ -11,17 +12,18 @@ namespace Simon_TopStyle.Controllers
     {
         private readonly IAuthentication _authentication;
 
+        
         public AuthController(IAuthentication authentication)
         {
             _authentication = authentication;
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserDTO user)
+        public async Task<IActionResult> Register(UserDTO user, string roleName)
         {
             try
             {
-                var result = await _authentication.Register(user);
+                var result = await _authentication.Register(user, roleName);
                 return Ok(result);
             }
             catch (Exception ex)
