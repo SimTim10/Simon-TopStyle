@@ -9,5 +9,6 @@ namespace Simon_TopStyle.Core.Interfaces
         Task<IdentityResult> CreateRole(string newRole);
 
         Task<IdentityResult> AddUserToRole(string email, string roleName);
+        Task<IList<string>> GetUserRole(string email);
     }
 }

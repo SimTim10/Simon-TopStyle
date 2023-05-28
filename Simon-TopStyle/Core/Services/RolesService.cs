@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Data.Interfaces;
 using Simon_TopStyle.Models.Users;
@@ -61,6 +62,22 @@ namespace Simon_TopStyle.Core.Services
             var result = await _rolesRepo.AddUserToRole(user, roleName);
             return result;
             
+        }
+        public async Task<IList<string>> GetUserRole(string email)
+        {
+            // Check user exists
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                _logger.LogInformation($"No user was found!");
+                throw new Exception("Email is invalid!");
+            }
+            var listOfRoles = await _rolesRepo.GetUserRole(user);
+            if (listOfRoles.IsNullOrEmpty())
+            {
+                throw new Exception("User has no roles!");
+            }
+            return listOfRoles;
         }
     }
 }

@@ -56,5 +56,11 @@ namespace Simon_TopStyle.Data.Repos
             return result;
             
         }
+
+        public async Task<IList<string>> GetUserRole(IdentityUser user)
+        {
+            var result = await _userManager.GetRolesAsync(user);
+            return result;
+        }
     }
 }

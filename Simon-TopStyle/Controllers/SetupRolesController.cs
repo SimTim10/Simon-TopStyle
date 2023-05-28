@@ -54,5 +54,20 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet]
+        [Route("GetUserRoles")]
+        public async Task<IActionResult> GetUserRoles(string email)
+        {
+            try
+            {
+                var rolesList = await _rolesService.GetUserRole(email);
+                return Ok(rolesList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
