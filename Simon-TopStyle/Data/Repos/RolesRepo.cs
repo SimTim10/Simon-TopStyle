@@ -62,5 +62,10 @@ namespace Simon_TopStyle.Data.Repos
             var result = await _userManager.GetRolesAsync(user);
             return result;
         }
+
+        public async Task RemoveRole(IdentityUser user,string roleName)
+        {
+            await _userManager.RemoveFromRoleAsync(user, roleName);
+        }
     }
 }

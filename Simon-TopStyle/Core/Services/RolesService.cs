@@ -79,5 +79,36 @@ namespace Simon_TopStyle.Core.Services
             }
             return listOfRoles;
         }
+
+        public async Task RemoveUserRole(string email,string roleName)
+        {
+            //Check if user exists
+            var user = await UserExist(email);
+            await RoleExist(roleName);
+            
+            await _rolesRepo.RemoveRole(user, roleName);
+            
+        }
+
+        private async Task<IdentityUser> UserExist(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                _logger.LogInformation($"No user was found!");
+                throw new Exception("Email is invalid!");
+            }
+            return user;
+        }
+        private async Task<bool> RoleExist(string roleName)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                _logger.LogInformation($"{roleName} does not exist!");
+                throw new Exception("Role was not found!");
+            }
+            return roleExist;
+        }
     }
 }

@@ -69,5 +69,20 @@ namespace Simon_TopStyle.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("RemoveUserRole")]
+        public async Task<IActionResult> RemoveUserRole(string email,string roleName)
+        {
+            try
+            {
+                await _rolesService.RemoveUserRole(email, roleName);
+                return Ok("Role removed from user.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
