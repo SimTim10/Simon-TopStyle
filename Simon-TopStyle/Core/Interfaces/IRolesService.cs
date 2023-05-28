@@ -7,5 +7,7 @@ namespace Simon_TopStyle.Core.Interfaces
         public List<IdentityRole> GetAllRoles();
         Task<List<IdentityUser>> GetAllUsers();
         Task<IdentityResult> CreateRole(string newRole);
+
+        Task<IdentityResult> AddUserToRole(string email, string roleName);
     }
 }

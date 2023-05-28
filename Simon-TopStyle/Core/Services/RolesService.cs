@@ -8,11 +8,17 @@ namespace Simon_TopStyle.Core.Services
     public class RolesService : IRolesService
     {
         private readonly IRolesRepo _rolesRepo;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<RolesService> _logger;
        
 
-        public RolesService(IRolesRepo rolesRepo)
+        public RolesService(IRolesRepo rolesRepo, UserManager<IdentityUser> userManager, ILogger<RolesService> logger, RoleManager<IdentityRole> roleManager)
         {
             _rolesRepo = rolesRepo;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _logger = logger;
         }
 
         public List<IdentityRole> GetAllRoles()
@@ -32,6 +38,28 @@ namespace Simon_TopStyle.Core.Services
 
             var addRole = await _rolesRepo.CreateRole(newRole);
             return addRole;
+            
+        }
+
+        public async Task<IdentityResult> AddUserToRole(string email,string roleName)
+        {
+            //Check if user exists
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user == null) 
+            {
+                _logger.LogInformation($"No user found. Check email again!");
+                throw new Exception("User was not found!");
+            }
+            //Check if role exists
+            var roleExist = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                _logger.LogInformation($"{roleName} does not exist!");
+                throw new Exception("Role was not found!");
+            }
+
+            var result = await _rolesRepo.AddUserToRole(user, roleName);
+            return result;
             
         }
     }

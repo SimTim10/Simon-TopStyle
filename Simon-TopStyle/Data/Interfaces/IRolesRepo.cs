@@ -8,5 +8,6 @@ namespace Simon_TopStyle.Data.Interfaces
         public List<IdentityRole> GetAllRoles();
         Task<List<IdentityUser>> GetAllUsers();
         Task<IdentityResult> CreateRole(string roleName);
+        Task<IdentityResult> AddUserToRole(IdentityUser user, string roleName);
     }
 }

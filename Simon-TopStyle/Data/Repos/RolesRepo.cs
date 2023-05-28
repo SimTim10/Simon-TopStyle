@@ -49,9 +49,12 @@ namespace Simon_TopStyle.Data.Repos
             throw new Exception("Role already exists");
         }
 
-        public async Task AddUserToRole(IdentityUser user,string roleName)
+        public async Task<IdentityResult> AddUserToRole(IdentityUser user,string roleName)
         {
-            await _userManager.AddToRoleAsync(user, roleName);
+
+            var result = await _userManager.AddToRoleAsync(user, roleName);
+            return result;
+            
         }
     }
 }

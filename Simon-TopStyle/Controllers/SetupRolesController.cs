@@ -37,8 +37,22 @@ namespace Simon_TopStyle.Controllers
 
         public async Task<IActionResult> CreateRole(string newRole)
         {
-           var addRole = await _rolesService.CreateRole(newRole);
+            await _rolesService.CreateRole(newRole);
             return Ok("The role successfully added!");
+        }
+        [HttpPost]
+        [Route("AddUserToRole")]
+        public async Task<IActionResult> AddUserToRole(string email,string roleName)
+        {
+            try
+            {
+                await _rolesService.AddUserToRole(email, roleName);
+                return Ok("User successfully obtained a new role");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
