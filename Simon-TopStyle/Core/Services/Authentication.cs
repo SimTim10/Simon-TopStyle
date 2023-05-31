@@ -23,35 +23,30 @@ namespace Simon_TopStyle.Core.Authentications
             _tokenGenerator = tokenGenerator;
         }
         
-        public async Task<string> Register(UserDTO user, string roleName)
+        public async Task<string> Register(UserDTO user)
         {
-            ApplicationUser newUser = new ApplicationUser()
+            var existingUser = await _userManager.FindByEmailAsync(user.Email);
+            if (existingUser != null)
             {
+                throw new Exception("Email already exists.");
+            }
+
+            var newUser = new IdentityUser()
+            {
+
                 UserName = user.Name,
                 Email = user.Email
             };
-            //IEnumerable<Claim> claims;
-
+                        
             var result = await _userManager.CreateAsync(newUser,user.Password);
+            
             if (result.Succeeded)
             {
-                var roleExist = await _roleManager.FindByNameAsync(roleName);
-                if (roleExist is null)
-                {
-                    var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
-                    if (roleResult.Succeeded)
-                    {
-                        return ($"{roleName} Good To Go!");
-                    }
-                    else
-                    {
-                        return ($"Couldn't Add {roleName} to roles!");
-                    }
-                }
+                await _userManager.AddToRoleAsync(newUser, "Customer");
                 
                 //var claim = new Claim(type, value);
                 //await _userManager.AddClaimAsync(newUser,claim);
-                return _tokenGenerator.JwtGenerator(user);
+                return await _tokenGenerator.JwtGenerator(newUser);
             }
             else
             {
@@ -59,18 +54,29 @@ namespace Simon_TopStyle.Core.Authentications
             }
           
         }
-        public async Task<string> Login(UserDTO user)
+        public async Task<string> Login(UserDTO input)
         {
+            
             try
             {
-                await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
-                //var userClaims = await _userManager.GetClaimsAsync(user);
+                var user = new IdentityUser()
+                {
+                    UserName = input.Name,
+                    Email = input.Email
+                };
+                await _signInManager.PasswordSignInAsync(input.Email, input.Password, false, false);
+                
+                var userRoles = await _userManager.GetRolesAsync(user);
+                  
+                //await _userManager.GetClaimsAsync(user);                    
 
-                return _tokenGenerator.JwtGenerator(user);
+                return await _tokenGenerator.JwtGenerator(user);
+                
+                                
             }
-            catch (Exception ex)
+            catch
             {
-                return(ex.Message);
+                return("Couldn't log in, check email and/or password");
             }
             
             
