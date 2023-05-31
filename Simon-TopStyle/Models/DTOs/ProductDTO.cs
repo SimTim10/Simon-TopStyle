@@ -1,6 +1,6 @@
 ﻿namespace Simon_TopStyle.Models.DTOs
 {
-    public class AddProduct
+    public class ProductDTO
     {
         public string ProductName { get; set; }
         public string Description { get; set; }

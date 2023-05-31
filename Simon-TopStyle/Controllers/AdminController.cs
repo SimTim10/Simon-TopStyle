@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Authentications;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Models.DTOs;
+using Simon_TopStyle.Models.Entities;
 
 namespace Simon_TopStyle.Controllers
 {
@@ -16,13 +17,19 @@ namespace Simon_TopStyle.Controllers
         {
             _adminService = adminService;
         }
+        [HttpGet("GetAllProducts")]
+        public IActionResult GetProducts()
+        {
+            var allproducts = _adminService.GetProducts();
+            return Ok(allproducts);
+            
+        }
 
         [Authorize]
         [HttpPost("AddProduct")]
-
-        public IActionResult AddProduct(AddProduct product)
+        public IActionResult AddProduct(ProductDTO product, int categoryId)
         {
-            _adminService.AddNewProduct(product);
+            _adminService.AddNewProduct(product, categoryId);
             return Ok("Done");
         }
     }

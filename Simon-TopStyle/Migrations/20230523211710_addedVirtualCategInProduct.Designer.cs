@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simon_TopStyle.Data.DataModels;
 
@@ -11,9 +12,11 @@ using Simon_TopStyle.Data.DataModels;
 namespace Simon_TopStyle.Migrations
 {
     [DbContext(typeof(TopStyleDBContext))]
-    partial class TopStyleDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230523211710_addedVirtualCategInProduct")]
+    partial class addedVirtualCategInProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,17 +233,6 @@ namespace Simon_TopStyle.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShippingAddress")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.HasKey("OrderId");
 
                     b.HasIndex("CustomerId");
@@ -277,7 +269,7 @@ namespace Simon_TopStyle.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryCategortyId");
 
                     b.ToTable("Products");
                 });

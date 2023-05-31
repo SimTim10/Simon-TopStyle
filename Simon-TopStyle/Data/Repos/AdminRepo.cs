@@ -1,4 +1,5 @@
-﻿using Simon_TopStyle.Data.DataModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Simon_TopStyle.Data.DataModels;
 using Simon_TopStyle.Data.Interfaces;
 using Simon_TopStyle.Models.DTOs;
 using Simon_TopStyle.Models.Entities;
@@ -14,7 +15,14 @@ namespace Simon_TopStyle.Data.Repos
             _dbContext = dbContext;
         }
 
-        public void AddNewProduct(AddProduct product)
+        public List<Product> GetProducts()
+        {
+            var allProducts = _dbContext.Products.Include(p => p.Category)
+                .ToList();
+            return allProducts;
+        }
+
+        public void AddNewProduct(ProductDTO product,int categoryId)
         {
             
             var newProduct = new Product()
@@ -28,6 +36,7 @@ namespace Simon_TopStyle.Data.Repos
             };
 
             _dbContext.Products.Add(newProduct);
+            
             _dbContext.SaveChanges();
         }
     }

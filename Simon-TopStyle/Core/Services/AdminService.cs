@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Data.Interfaces;
 using Simon_TopStyle.Models.DTOs;
+using Simon_TopStyle.Models.Entities;
 using Simon_TopStyle.Models.Users;
 
 namespace Simon_TopStyle.Core.Services
@@ -19,13 +20,13 @@ namespace Simon_TopStyle.Core.Services
             _roleManager = roleManager;
             _userManager = userManager;
         }
-
-
-        
-
-        public void AddNewProduct(AddProduct product)
+        public List<Product> GetProducts()
         {
-            _adminRepo.AddNewProduct(product);
+            return _adminRepo.GetProducts();
+        }
+        public void AddNewProduct(ProductDTO product,int categoryId)
+        {
+            _adminRepo.AddNewProduct(product, categoryId);
         }
     }
 }
