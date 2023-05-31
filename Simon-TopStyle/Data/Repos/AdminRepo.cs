@@ -31,7 +31,7 @@ namespace Simon_TopStyle.Data.Repos
                 ProductName = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
-                CategoryId = product.CategoryId,
+                //CategoryId = product.CategoryId,
                 IsAvailable = product.IsAvailabe
             };
 

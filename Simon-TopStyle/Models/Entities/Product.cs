@@ -16,6 +16,7 @@ namespace Simon_TopStyle.Models.Entities
         public int Price { get; set; }
         
         public bool IsAvailable { get; set; }
+        public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public List<ProductOrder> ProductOrders { get; set; }
         
