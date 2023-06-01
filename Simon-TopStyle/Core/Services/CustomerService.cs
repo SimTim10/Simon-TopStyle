@@ -1,4 +1,7 @@
-﻿using Simon_TopStyle.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Simon_TopStyle.Core.Interfaces;
+using Simon_TopStyle.Data.DataModels;
 using Simon_TopStyle.Data.Interfaces;
 using Simon_TopStyle.Models.DTOs;
 using Simon_TopStyle.Models.Entities;
@@ -8,10 +11,14 @@ namespace Simon_TopStyle.Core.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepo _customerRepo;
+        private readonly TopStyleDBContext _dbContext;
+        private readonly UserManager<IdentityUser> _userManager;
         
-        public CustomerService(ICustomerRepo customerRepo)
+        public CustomerService(ICustomerRepo customerRepo, TopStyleDBContext dbContext, UserManager<IdentityUser> userManager)
         {
             _customerRepo = customerRepo;
+            _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -49,6 +56,22 @@ namespace Simon_TopStyle.Core.Services
                 productDtos.Add(productDto);
             }
             return productDtos;
+        }
+        public async Task<Customer> GetCustomer(string email)
+        {
+            var user = new IdentityUser()
+            {
+                Email = email
+
+            };
+            //Check if email exists.
+            var checkEmail = await _userManager.GetEmailAsync(user);
+            if (checkEmail == null)
+            {
+                throw new Exception("Email not found! Please check your email!");
+            }
+            var customer = await _customerRepo.GetMyInfo(email);
+            return customer;
         }
     }
 }

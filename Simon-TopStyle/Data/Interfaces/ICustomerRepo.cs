@@ -6,5 +6,6 @@ namespace Simon_TopStyle.Data.Interfaces
     {
         Task<List<Product>> GetAllProducs();
         Task<List<Product>> SearchProducts(Product product);
+        Task<Customer> GetMyInfo(string email);
     }
 }

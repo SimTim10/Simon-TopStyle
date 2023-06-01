@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Interfaces;
 
@@ -33,6 +34,21 @@ namespace Simon_TopStyle.Controllers
                 return Ok(result);
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet]
+        [Route("GetMyInfo")]
+        public async Task<IActionResult> GetCustomer(string email)
+        {
+            try
+            {
+                var result = await _customerService.GetCustomer(email);
+                return Ok(result);
+            }
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }

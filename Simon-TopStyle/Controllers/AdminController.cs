@@ -25,7 +25,7 @@ namespace Simon_TopStyle.Controllers
             
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("AddProduct")]
         public async Task<IActionResult> AddProduct(ProductDTO product)
         {

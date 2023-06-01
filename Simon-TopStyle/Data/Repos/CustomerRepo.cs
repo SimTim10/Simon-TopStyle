@@ -29,6 +29,13 @@ namespace Simon_TopStyle.Data.Repos
                 .ToListAsync();
             return searchResult;
         }
+
+        public async Task<Customer> GetMyInfo(string email)
+        {
+            var customer = await _dbContext.Customers
+                .SingleOrDefaultAsync(c => c.Email == email);
+            return customer;
+        }
         
     }
 }

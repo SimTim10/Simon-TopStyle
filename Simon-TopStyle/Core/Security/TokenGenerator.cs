@@ -42,7 +42,7 @@ namespace Simon_TopStyle.Core.Security
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.Now.AddMinutes(30),
                 SigningCredentials = signingCredentials
             };
             var token = new JwtSecurityTokenHandler().CreateToken(tokenDescriptor);

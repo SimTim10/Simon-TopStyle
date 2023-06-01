@@ -7,5 +7,6 @@ namespace Simon_TopStyle.Core.Interfaces
     {
         Task<List<Product>> GetAllProducts();
         Task<List<ProductDTO>> SearchProduct(string searchInput);
+        Task<Customer> GetCustomer(string email);
     }
 }
