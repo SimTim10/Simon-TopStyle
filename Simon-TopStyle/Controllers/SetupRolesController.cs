@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Interfaces;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Simon_TopStyle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class SetupRolesController : ControllerBase
     {
         private readonly IRolesService _rolesService;

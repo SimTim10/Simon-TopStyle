@@ -38,14 +38,14 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
         [Route("GetMyInfo")]
-        public async Task<IActionResult> GetCustomer(string email)
+        public async Task<IActionResult> GetUser(string email)
         {
             try
             {
-                var result = await _customerService.GetCustomer(email);
+                var result = await _customerService.GetUser(email);
                 return Ok(result);
             }
             catch(Exception ex)

@@ -57,7 +57,7 @@ namespace Simon_TopStyle.Core.Services
             }
             return productDtos;
         }
-        public async Task<Customer> GetCustomer(string email)
+        public async Task<Customer> GetUser(string email)
         {
             var user = new IdentityUser()
             {

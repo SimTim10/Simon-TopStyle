@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Simon_TopStyle.Core.Authentications;
 using Simon_TopStyle.Core.Interfaces;
 using Simon_TopStyle.Core.Security;
@@ -21,6 +22,28 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
+builder.Services.AddSwaggerGen(setup =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme()
+    {
+        BearerFormat = "JWT",
+        Name = "JWT Authentication",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put your JWT Bearer token on textbox below!",
+        Reference = new OpenApiReference()
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    setup.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {jwtSecurityScheme, Array.Empty<string>() }
+    });
+});
 builder.Services.AddScoped<IAdminRepo, AdminRepo>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
@@ -70,6 +93,8 @@ var app = builder.Build();
 
 
 app.UseRouting();
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api Doc"));
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
