@@ -41,6 +41,8 @@ namespace Simon_TopStyle.Core.Security
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
+                Issuer = "https://localhost:7108",
+                Audience = "https://localhost:7108",
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddMinutes(30),
                 SigningCredentials = signingCredentials

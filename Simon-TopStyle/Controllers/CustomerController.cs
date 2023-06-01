@@ -38,7 +38,7 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+        [Authorize]
         [HttpGet]
         [Route("GetMyInfo")]
         public async Task<IActionResult> GetCustomer(string email)
