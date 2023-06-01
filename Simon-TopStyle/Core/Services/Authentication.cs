@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Interfaces;
+using Simon_TopStyle.Data.DataModels;
 using Simon_TopStyle.Models.DTOs;
+using Simon_TopStyle.Models.Entities;
 using Simon_TopStyle.Models.Users;
 using System.Security.Claims;
 
@@ -14,13 +16,19 @@ namespace Simon_TopStyle.Core.Authentications
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ITokenGenerator _tokenGenerator;
+        private readonly TopStyleDBContext _dbContext;
 
-        public Authentication(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, ITokenGenerator tokenGenerator)
+        public Authentication(UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            ITokenGenerator tokenGenerator,
+            TopStyleDBContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _tokenGenerator = tokenGenerator;
+            _dbContext = dbContext;
         }
         
         public async Task<string> Register(UserDTO user)
@@ -42,6 +50,14 @@ namespace Simon_TopStyle.Core.Authentications
             
             if (result.Succeeded)
             {
+                var customer = new Customer()
+                {
+                    CustomerName = user.Name,
+                    Email = user.Email
+                };
+                await _dbContext.Customers.AddAsync(customer);
+                await _dbContext.SaveChangesAsync();
+                
                 await _userManager.AddToRoleAsync(newUser, "Customer");
                 
                 //var claim = new Claim(type, value);
