@@ -64,6 +64,7 @@ namespace Simon_TopStyle.Core.Security
                 new Claim(JwtRegisteredClaimNames.Sub,user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 
+                
             };
 
             //Getting Claims of our user and adding them to this list of claims.

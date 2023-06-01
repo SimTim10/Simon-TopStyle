@@ -72,31 +72,26 @@ namespace Simon_TopStyle.Core.Authentications
         }
         public async Task<string> Login(UserDTO input)
         {
-            
-            try
+            var user = new IdentityUser()
             {
-                var user = new IdentityUser()
-                {
-                    UserName = input.Name,
-                    Email = input.Email
-                };
-                await _signInManager.PasswordSignInAsync(input.Email, input.Password, false, false);
-                
-                var userRoles = await _userManager.GetRolesAsync(user);
+                UserName = input.Name,
+                Email = input.Email
+            };
+            
+            var result = await _signInManager.PasswordSignInAsync(input.Name, input.Password, false, false);
+            if (result.Succeeded)
+            {
+                //Get IdentityUser instance of the logged in user
+                var getUser = await _userManager.FindByEmailAsync(user.Email);
+                return await _tokenGenerator.JwtGenerator(getUser);
+            }
+            else
+            {
+                throw new Exception("Couldn't log in! Please check your email and/or password");
+            }
+            //var userRoles = await _userManager.GetRolesAsync(user);
                   
-                //await _userManager.GetClaimsAsync(user);                    
-
-                return await _tokenGenerator.JwtGenerator(user);
-                
-                                
-            }
-            catch
-            {
-                return("Couldn't log in, check email and/or password");
-            }
-            
-            
-
+            //await _userManager.GetClaimsAsync(user);
         }
     }
 }
