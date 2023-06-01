@@ -5,7 +5,7 @@ namespace Simon_TopStyle.Data.Interfaces
 {
     public interface IAdminRepo
     {
-        public void AddNewProduct(ProductDTO product,int categoryId);
+        Task AddNewProduct(Product product);
         public List<Product> GetProducts();
     }
 }

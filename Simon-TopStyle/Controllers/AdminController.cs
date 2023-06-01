@@ -25,12 +25,19 @@ namespace Simon_TopStyle.Controllers
             
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("AddProduct")]
-        public IActionResult AddProduct(ProductDTO product, int categoryId)
+        public async Task<IActionResult> AddProduct(ProductDTO product)
         {
-            _adminService.AddNewProduct(product, categoryId);
-            return Ok("Done");
+            try
+            {
+                await _adminService.AddNewProduct(product);
+                return Ok("New product Successfully has been added.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

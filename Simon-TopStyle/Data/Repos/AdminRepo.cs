@@ -17,27 +17,15 @@ namespace Simon_TopStyle.Data.Repos
 
         public List<Product> GetProducts()
         {
-            var allProducts = _dbContext.Products.Include(p => p.Category)
-                .ToList();
+            var allProducts = _dbContext.Products.ToList();
             return allProducts;
         }
 
-        public void AddNewProduct(ProductDTO product,int categoryId)
+        public async Task AddNewProduct(Product product)
         {
+            await _dbContext.Products.AddAsync(product);
             
-            var newProduct = new Product()
-            {
-
-                ProductName = product.ProductName,
-                Description = product.Description,
-                Price = product.Price,
-                //CategoryId = product.CategoryId,
-                IsAvailable = product.IsAvailabe
-            };
-
-            _dbContext.Products.Add(newProduct);
-            
-            _dbContext.SaveChanges();
+           await _dbContext.SaveChangesAsync();
         }
     }
 }

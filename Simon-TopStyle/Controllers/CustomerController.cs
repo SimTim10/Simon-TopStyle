@@ -22,5 +22,20 @@ namespace Simon_TopStyle.Controllers
             var productList = await _customerService.GetAllProducts();
             return Ok(productList);
         }
+
+        [HttpGet]
+        [Route("Search")]
+        public async Task<IActionResult> SearchProducts(string searchInput)
+        {
+            try
+            {
+                var result = await _customerService.SearchProduct(searchInput);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

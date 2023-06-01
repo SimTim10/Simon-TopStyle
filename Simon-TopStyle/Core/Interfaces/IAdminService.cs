@@ -6,7 +6,7 @@ namespace Simon_TopStyle.Core.Interfaces
 {
     public interface IAdminService
     {
-        public void AddNewProduct(ProductDTO product,int categoryId);
+        Task AddNewProduct(ProductDTO product);
         public List<Product> GetProducts();
     }
 }
