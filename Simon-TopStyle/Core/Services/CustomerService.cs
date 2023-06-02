@@ -57,6 +57,50 @@ namespace Simon_TopStyle.Core.Services
             }
             return productDtos;
         }
+        public async Task<Order> SetOrder(List<int> productIdList, OrderDTO OrderDTO)
+        {
+            var productList = new List<Product>();
+            var productOrder = new List< ProductOrder>();
+            
+            //Check if products exist.
+            foreach (var id in productIdList)
+            {
+                var checkProductList = await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductId == id);
+                if (checkProductList == null)
+                {
+                    throw new Exception($"Product not found/or unavailable: {id}");
+                }
+
+                //Gather all products
+                var getProduct = await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductId == id);
+                productList.Add(getProduct);
+            }
+            //Get customer.
+            var customer = await _dbContext.Customers
+                .SingleOrDefaultAsync(c => c.Email == OrderDTO.Email);
+            //Create Order
+            var order = new Order()
+            {
+                ShippingAddress = OrderDTO.ShippingAddress,
+                Price = productList.Sum(p => p.Price),
+                ProductsCount = productList.Count,
+                CustomerId = customer.CustomerId
+            };
+
+            var createdOrder = await _customerRepo.SetOrder(order);
+            foreach (var product in productList)
+            {
+                var po = new ProductOrder()
+                {
+                    ProductId = product.ProductId,
+                    OrderId = createdOrder.OrderId,
+                };
+                await _dbContext.ProductsOrders.AddAsync(po);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return createdOrder;
+        }
         public async Task<Customer> GetUser(string email)
         {
             var user = new IdentityUser()

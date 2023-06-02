@@ -29,7 +29,15 @@ namespace Simon_TopStyle.Data.Repos
                 .ToListAsync();
             return searchResult;
         }
-
+        public async Task<Order> SetOrder(Order order)
+        {
+            await _dbContext.Orders.AddAsync(order);
+            await _dbContext.SaveChangesAsync();
+            
+            var createdOrder = await _dbContext.Orders
+                .FirstOrDefaultAsync(o => o.OrderId == order.OrderId);
+            return createdOrder;
+        }
         public async Task<Customer> GetMyInfo(string email)
         {
             var customer = await _dbContext.Customers

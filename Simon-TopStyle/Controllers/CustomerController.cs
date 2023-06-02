@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Simon_TopStyle.Core.Interfaces;
+using Simon_TopStyle.Models.DTOs;
 
 namespace Simon_TopStyle.Controllers
 {
@@ -38,6 +39,23 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("CreateOrder")]
+        public async Task<IActionResult> SetOrder([FromBody]List<int> productIdList,[FromQuery] OrderDTO orderDTO)
+        {
+            try
+            {
+                var result = await _customerService.SetOrder(productIdList, orderDTO);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
         [Route("GetMyInfo")]
@@ -53,5 +71,6 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
+         
     }
 }

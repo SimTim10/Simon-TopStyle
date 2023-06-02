@@ -14,6 +14,7 @@ namespace Simon_TopStyle.Models.Entities
         public int Price { get; set; }
         [Required]
         public int ProductsCount { get; set; }
+        public int CustomerId { get; set; }
 
         public Customer Customer { get; set; }
         public List<ProductOrder> ProductOrders { get; set; }
