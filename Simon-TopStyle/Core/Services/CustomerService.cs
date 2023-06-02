@@ -78,6 +78,11 @@ namespace Simon_TopStyle.Core.Services
             //Get customer.
             var customer = await _dbContext.Customers
                 .SingleOrDefaultAsync(c => c.Email == OrderDTO.Email);
+            if(customer == null)
+            {
+                throw new Exception("User not found! Please check your email.");
+            }
+
             //Create Order
             var order = new Order()
             {

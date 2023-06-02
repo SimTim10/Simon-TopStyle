@@ -39,7 +39,7 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = "Customer")]
         [HttpPost]
         [Route("CreateOrder")]
         public async Task<IActionResult> SetOrder([FromBody]List<int> productIdList,[FromQuery] OrderDTO orderDTO)
