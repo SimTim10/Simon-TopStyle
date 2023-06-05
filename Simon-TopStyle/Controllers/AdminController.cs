@@ -10,6 +10,7 @@ namespace Simon_TopStyle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -25,7 +26,7 @@ namespace Simon_TopStyle.Controllers
             
         }
 
-        [Authorize(Roles = "Admin")]
+        
         [HttpPost("AddProduct")]
         public async Task<IActionResult> AddProduct(ProductDTO product)
         {
@@ -66,6 +67,15 @@ namespace Simon_TopStyle.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPut]
+        [Route("EditOrder")]
+        public async Task<IActionResult> EditOrder(int productId,int orderId, bool delete)
+        {
+
+            await _adminService.EditOrder(productId,orderId,delete);
+            return Ok("Done");
         }
     }
 }

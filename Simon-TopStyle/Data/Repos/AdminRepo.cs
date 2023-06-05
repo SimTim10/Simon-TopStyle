@@ -39,5 +39,20 @@ namespace Simon_TopStyle.Data.Repos
             _dbContext.Products.Remove(product);
             _dbContext.SaveChanges();
         }
+
+        public async Task EditOrder(ProductOrder productOrder,bool delete)
+        {
+            if(delete)
+            {
+                _dbContext.ProductsOrders.Remove(productOrder);
+                _dbContext.SaveChanges();
+            }
+            else if(!delete)
+            {
+                _dbContext.ProductsOrders.Add(productOrder);
+                _dbContext.SaveChanges();
+            }
+            
+        }
     }
 }

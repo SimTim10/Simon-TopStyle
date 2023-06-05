@@ -9,5 +9,6 @@ namespace Simon_TopStyle.Data.Interfaces
         public List<Product> GetProducts();
         Task EditProduct(Product product);
         Task DeleteProduct(Product product);
+        Task EditOrder(ProductOrder productOrder,bool delete);
     }
 }

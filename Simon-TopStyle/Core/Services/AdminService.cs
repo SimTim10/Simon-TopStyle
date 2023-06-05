@@ -134,5 +134,46 @@ namespace Simon_TopStyle.Core.Services
                 throw new Exception("Cannot delete this product, it is a part of an order!");
             }
         }
+        
+        public async Task EditOrder(int productId, int orderId,bool delete)
+        {
+            //Check Order Exists.
+            var order = _dbContext.Orders.SingleOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                throw new Exception($"Order {orderId}, does not exist!");
+            }
+            //var productOrders = new List<ProductOrder>();
+            //Get productOrderList.
+            var productOrders = await _dbContext.ProductsOrders
+                .Where(pO => pO.OrderId == orderId).ToListAsync();
+            if(delete)
+            {
+                foreach (var productOrder in productOrders)
+                {
+                    var oPobject = await _dbContext.ProductsOrders.SingleOrDefaultAsync(oP => oP.ProductId == productId);
+                    if (oPobject != null)
+                    {
+                        await _adminRepo.EditOrder(oPobject,delete);
+                    }
+                }
+            }
+            else if(!delete)
+            {
+                //Get productOrder obj.
+                
+                //Get product obj.
+                var product = await _dbContext.Products
+                    .SingleOrDefaultAsync(p => p.ProductId == productId);
+                var productOrder = new ProductOrder()
+                {
+                    OrderId = orderId,
+                    ProductId = productId
+                };
+                
+                await _adminRepo.EditOrder(productOrder, delete);
+                
+            }
+        }
     }
 }
