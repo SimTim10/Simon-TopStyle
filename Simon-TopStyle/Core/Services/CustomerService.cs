@@ -49,7 +49,7 @@ namespace Simon_TopStyle.Core.Services
                     Description = resultProduct.Description,
                     Price = resultProduct.Price,
                     //CategoryId = resultProduct.CategoryId,
-                    IsAvailabe = resultProduct.IsAvailable,
+                    IsAvailable = resultProduct.IsAvailable,
                     CategoryName = resultProduct.Category.CategoryName 
                     
                 };

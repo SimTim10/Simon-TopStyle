@@ -33,7 +33,7 @@ namespace Simon_TopStyle.Core.Services
                 ProductName = product.ProductName,
                 Description = product.Description,
                 Price = product.Price,
-                IsAvailable = product.IsAvailabe,
+                IsAvailable = product.IsAvailable,
                                 
             };
             
@@ -65,41 +65,74 @@ namespace Simon_TopStyle.Core.Services
                 newProduct.CategoryId = checkCategory.CategortyId;
                 await _adminRepo.AddNewProduct(newProduct);
             }
+        }
+        public async Task EditProduct(int productId,ProductDTO productDTO)
+        {
 
-            //newProduct.Description = product.Description;
-            //newProduct.Price = product.Price;
-            //newProduct.Category.CategortyId = product.CategoryId;
-            //newProduct.IsAvailable = product.IsAvailabe;
-            
-
+            //Check if a product with the same name already exists.
+            var checkProduct = await _dbContext.Products
+                .SingleOrDefaultAsync(p => p.ProductId == productId);
+            if (checkProduct == null)
+            {
+                throw new Exception("Product was not found. Please check your Product Id");
+            }
             //var newProduct = new Product()
             //{
-
-            //    ProductName = product.ProductName,
-            //    Description = product.Description,
-            //    Price = product.Price,
-            //    CategoryId = product.CategoryId,
-            //    IsAvailable = product.IsAvailabe
-                
+            //    ProductId = productId,
+            //    ProductName = productDTO.ProductName,
+            //    Description = productDTO.Description,
+            //    Price = productDTO.Price,
+            //    IsAvailable = productDTO.IsAvailable
             //};
-            ////Check if product already exists.
-            //var checkProduct = await _dbContext.Products
-            //    .AnyAsync(p => p.ProductName == newProduct.ProductName);
-            //if (checkProduct)
-            //{
-            //    throw new Exception("Product with the same name already exist");
-            //}
-            ////Check if product category already exists.
-            ///*var checkCategoryN = await _dbContext.Categories
-            //    .AnyAsync(c => c.CategoryName)*/
-            //var checkCategory = await _dbContext.Categories
-            //    .AnyAsync(c => c.CategortyId == newProduct.CategoryId);
-            //if (!checkCategory)
-            //{
-            //    throw new Exception("No matching category id was found.");
-            //}
 
-            //await _adminRepo.AddNewProduct(newProduct);
+            //checkProduct.ProductId = productId;
+            checkProduct.ProductName = productDTO.ProductName;
+            checkProduct.Description = productDTO.Description;
+            checkProduct.Price = productDTO.Price;
+            checkProduct.IsAvailable = productDTO.IsAvailable;
+
+            //Check if category already exists.
+            var checkCategory = _dbContext.Categories
+                .SingleOrDefault(c => c.CategoryName == productDTO.CategoryName);
+            //if category doesn't exist, first create new category then add category id to new product then add product to DB
+            if (checkCategory == null)
+            {
+                var newCategory = new Category()
+                {
+                    CategoryName = productDTO.CategoryName
+                };
+                _dbContext.Categories.Add(newCategory);
+                _dbContext.SaveChanges();
+                checkProduct.CategoryId = newCategory.CategortyId;
+                await _adminRepo.EditProduct(checkProduct);
+            }
+            //if category exists, add category id to new product then add it to DB.
+            else
+            {
+                checkProduct.CategoryId = checkCategory.CategortyId;
+                await _adminRepo.EditProduct(checkProduct);
+            }
+            
+
+        }
+        public async Task DelProduct( int productId)
+        {
+            //Check product exists.
+            var Product = _dbContext.Products.SingleOrDefault(p => p.ProductId == productId);
+            if (Product == null)
+            {
+                throw new Exception($"Product {productId} was not found, check your ProductId");
+            }
+            //chek if product exists in an order.
+            var checkProduct = _dbContext.ProductsOrders.Any(pO => pO.ProductId == productId);
+            if (!checkProduct)
+            {
+                await _adminRepo.DeleteProduct(Product);
+            }
+            else
+            {
+                throw new Exception("Cannot delete this product, it is a part of an order!");
+            }
         }
     }
 }

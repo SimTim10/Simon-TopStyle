@@ -8,5 +8,7 @@ namespace Simon_TopStyle.Core.Interfaces
     {
         Task AddNewProduct(ProductDTO product);
         public List<Product> GetProducts();
+        Task EditProduct(int id, ProductDTO productDTO);
+        Task DelProduct(int productId);
     }
 }

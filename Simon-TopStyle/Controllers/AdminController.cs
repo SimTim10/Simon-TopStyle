@@ -39,5 +39,33 @@ namespace Simon_TopStyle.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut]
+        [Route("EditProduct")]
+        public async Task<IActionResult> EditProduct(int productId, ProductDTO productDTO)
+        {
+            try
+            {
+                await _adminService.EditProduct(productId,productDTO);
+                return Ok("Successfully Updated Product!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteProduct")]
+        public async Task<IActionResult> DelProduct(int productId)
+        {
+            try
+            {
+                await _adminService.DelProduct(productId);
+                return Ok("Deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

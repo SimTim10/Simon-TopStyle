@@ -27,5 +27,17 @@ namespace Simon_TopStyle.Data.Repos
             
            await _dbContext.SaveChangesAsync();
         }
+
+        public async Task EditProduct(Product product)
+        {
+            _dbContext.Products.Update(product);
+            _dbContext.SaveChanges();
+        }
+
+        public async Task DeleteProduct(Product product)
+        {
+            _dbContext.Products.Remove(product);
+            _dbContext.SaveChanges();
+        }
     }
 }

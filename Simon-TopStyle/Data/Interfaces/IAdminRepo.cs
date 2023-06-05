@@ -7,5 +7,7 @@ namespace Simon_TopStyle.Data.Interfaces
     {
         Task AddNewProduct(Product product);
         public List<Product> GetProducts();
+        Task EditProduct(Product product);
+        Task DeleteProduct(Product product);
     }
 }
