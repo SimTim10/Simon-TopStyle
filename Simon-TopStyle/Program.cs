@@ -60,7 +60,7 @@ if (builder.Environment.IsProduction())
     var keyVaultURL = builder.Configuration.GetSection("KeyVault:KeyVaultURL");
     var clientId = builder.Configuration.GetSection("KeyVault:ClientId");
     var clientSecret = builder.Configuration.GetSection("KeyVault:ClientSecret");
-    var directoryId = builder.Configuration.GetSection("KeyVault:DirectoryID");
+    var directoryId = builder.Configuration.GetSection("KeyVault:DirectoryId");
     var credential = new ClientSecretCredential(directoryId.Value!.ToString()
                                                     , clientId.Value!.ToString()
                                                     , clientSecret.Value!.ToString());
