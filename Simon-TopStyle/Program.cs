@@ -1,6 +1,9 @@
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Simon_TopStyle.Core.Authentications;
@@ -52,6 +55,23 @@ builder.Services.AddScoped<IAuthentication, Authentication>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IRolesRepo, RolesRepo>();
 builder.Services.AddScoped<IRolesService, RolesService>();
+if (builder.Environment.IsProduction())
+{
+    var keyVaultURL = builder.Configuration.GetSection("KeyVault:KeyVaultURL");
+    var clientId = builder.Configuration.GetSection("KeyVault:ClientId");
+    var clientSecret = builder.Configuration.GetSection("KeyVault:ClientSecret");
+    var directoryId = builder.Configuration.GetSection("KeyVault:DirectoryID");
+    var credential = new ClientSecretCredential(directoryId.Value!.ToString()
+                                                    , clientId.Value!.ToString()
+                                                    , clientSecret.Value!.ToString());
+    builder.Configuration.AddAzureKeyVault(keyVaultURL.Value!.ToString()
+                                            , clientId.Value.ToString()
+                                            , clientSecret.Value!.ToString()
+                                            , new DefaultKeyVaultSecretManager());
+    var client = new SecretClient(new Uri(keyVaultURL.Value!.ToString()), credential);
+    builder.Services.AddDbContext<TopStyleDBContext>(opt =>
+                                opt.UseSqlServer(client.GetSecret("VaultConnString").Value.Value.ToString()));
+}
 
 if (builder.Environment.IsDevelopment())
 {
