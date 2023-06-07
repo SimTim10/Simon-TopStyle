@@ -68,7 +68,11 @@ namespace Simon_TopStyle.Core.Services
                 var checkProductList = await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductId == id);
                 if (checkProductList == null)
                 {
-                    throw new Exception($"Product not found/or unavailable: {id}");
+                    throw new Exception($"Product '{id}' not found ");
+                }
+                if (!checkProductList.IsAvailable)
+                {
+                    throw new Exception($"Product with ID : '{id}' is not available in stock right now!.");
                 }
 
                 //Gather all products
