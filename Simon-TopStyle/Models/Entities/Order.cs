@@ -12,8 +12,8 @@ namespace Simon_TopStyle.Models.Entities
         public string ShippingAddress { get; set; }
         [Required]
         public int Price { get; set; }
-        [Required]
-        public int ProductsCount { get; set; }
+        //[Required]
+        //public int ProductsCount { get; set; }
         public int CustomerId { get; set; }
 
         public Customer Customer { get; set; }

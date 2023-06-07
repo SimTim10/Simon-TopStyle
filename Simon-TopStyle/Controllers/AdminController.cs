@@ -18,6 +18,13 @@ namespace Simon_TopStyle.Controllers
         {
             _adminService = adminService;
         }
+        [HttpGet]
+        [Route("GetAllOrders")]
+        public async Task<List<Order>> GetAllOrders()
+        {
+            var orders = await _adminService.GetOrders();
+            return orders;
+        }
         [HttpGet("GetAllProducts")]
         public IActionResult GetProducts()
         {

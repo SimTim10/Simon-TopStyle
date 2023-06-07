@@ -14,7 +14,11 @@ namespace Simon_TopStyle.Data.Repos
         {
             _dbContext = dbContext;
         }
-
+        public async Task<List<Order>> GetOrders()
+        {
+            var orders = await _dbContext.Orders.ToListAsync();
+            return orders;
+        }
         public List<Product> GetProducts()
         {
             var allProducts = _dbContext.Products.ToList();

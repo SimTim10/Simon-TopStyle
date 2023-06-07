@@ -11,5 +11,6 @@ namespace Simon_TopStyle.Core.Interfaces
         Task EditProduct(int id, ProductDTO productDTO);
         Task DelProduct(int productId);
         Task EditOrder(int productId, int orderId, bool delete);
+        Task<List<Order>> GetOrders();
     }
 }

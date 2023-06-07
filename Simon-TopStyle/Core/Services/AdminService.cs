@@ -175,5 +175,10 @@ namespace Simon_TopStyle.Core.Services
                 
             }
         }
+        public async Task<List<Order>> GetOrders()
+        {
+            var orders = await _adminRepo.GetOrders();
+            return orders;
+        }
     }
 }

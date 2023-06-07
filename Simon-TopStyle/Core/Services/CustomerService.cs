@@ -88,7 +88,7 @@ namespace Simon_TopStyle.Core.Services
             {
                 ShippingAddress = OrderDTO.ShippingAddress,
                 Price = productList.Sum(p => p.Price),
-                ProductsCount = productList.Count,
+                //ProductsCount = productList.Count,
                 CustomerId = customer.CustomerId
             };
 
